@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { AnimalesService } from '../../servicios/animales.service';
 
 @Component({
   selector: 'app-buscador',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BuscadorComponent implements OnInit {
 
-  constructor() { }
+  animales: any[] = [];
+  termino: string;
+
+  constructor(private animalesService: AnimalesService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this.activatedRoute.params.subscribe(params => {
+      this.termino = params['termino'];
+      this.animales = this.animalesService.buscarAnimales(params['termino']);
+    });
   }
 
 }
